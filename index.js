@@ -24,7 +24,14 @@ function checkKey(req, res) {
 app.get("/", (req, res) => {
   res.json({ ok: true, msg: "ml-proxy running" });
 });
-
+app.get("/debug-env", (req, res) => {
+  res.json({
+    hasApiKey: Boolean(process.env.API_KEY),
+    apiKeyLen: (process.env.API_KEY || "").length,
+    queryKeyLen: (req.query.key || "").length,
+    queryKeySample: String(req.query.key || "").slice(0, 3), // só 3 chars
+  });
+});
 // Endpoint: pega um item do Mercado Livre
 app.get("/ml/items/:id", async (req, res) => {
   if (!checkKey(req, res)) return;
