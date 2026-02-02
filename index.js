@@ -12,7 +12,7 @@ const API_KEY = process.env.API_KEY || "";
 // Função: valida a chave (opcional, mas recomendado)
 function checkKey(req, res) {
   if (!API_KEY) return true; // se você não setar API_KEY no Render, não valida (não recomendo)
-  const key = req.query.key;
+    const key = String(req.query.key || "").trim(); // <-- aqui
   if (key !== API_KEY) {
     res.status(401).json({ error: "unauthorized" });
     return false;
